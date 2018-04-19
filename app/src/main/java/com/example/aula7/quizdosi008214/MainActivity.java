@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     List<Users> usersList = new ArrayList<>();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +38,27 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.id_pb_data);
         textView = (TextView) findViewById(R.id.id_tv_data);
 
-        if (isOnLine()){
-            // Hacer llamado a la tarea
-            MyTask myTask = new MyTask();
-            myTask.execute("https://jsonplaceholder.typicode.com/users");
-        }else {
-            Toast.makeText(this, "Sin conexion", Toast.LENGTH_SHORT).show();
+         if(isOnline()) {
+            MyTask taskUsers = new MyTask();
+            taskUsers.execute("https://jsonplaceholder.typicode.com/users");
+
+        }
+        else {
+            Toast.makeText(this, "No hay conexion a internet", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean isOnline() {
+        // OBTENIENDO EL SERVICIO DE LA CONECTIVIDAD
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        // DE ConnectivityManager OBTENGO SI ESTA O NO ACTIVA LA RED
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        // SI HAY CONEXION
+        if(networkInfo != null) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -64,9 +78,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void processData(){
-        for (Users str : usersList){
-            textView.append(str.getName() + "\n");
+
+    public void processData() {
+        for(Users user  : usersList) {
+            textView.append(user.getName() + "\n");
+            textView.append(user.getUsername() + "\n");
+            textView.append(user.getEmail() + "\n");
+            textView.append(user.getStreet() + "\n\n");
+
         }
     }
 
@@ -96,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
+
             super.onPostExecute(s);
 
             try {

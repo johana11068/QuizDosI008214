@@ -18,24 +18,24 @@ public class JsonUser {
     public static List<Users> getData(String content) throws JSONException {
 
         JSONArray jsonArray = new JSONArray(content);
+        List<Users> userList = new ArrayList<>();
 
-        List<Users> usersList = new ArrayList<>();
-
-        for (int i = 0; i < jsonArray.length(); i++){
-
+        for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject item = jsonArray.getJSONObject(i);
 
-            Users users = new Users();
-            users.setName(item.getString("name"));
-            users.setUsername(item.getString("username"));
-            users.setEmail(item.getString("email"));
+            Users user = new Users();
+            user.setName(item.getString("name"));
+            user.setUsername(item.getString("username"));
+            user.setEmail(item.getString("email"));
 
-            JSONObject jsonObject = item.getJSONObject("address");
-            users.setStreet(item.getString("street"));
+            JSONObject addressObject = item.getJSONObject("address");
+            user.setStreet(addressObject.getString("street"));
 
-            usersList.add(users);
+            userList.add(user);
+
         }
 
-        return usersList;
+        return userList;
     }
+
 }
