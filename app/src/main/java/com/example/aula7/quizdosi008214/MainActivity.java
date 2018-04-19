@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.id_pb_data);
         textView = (TextView) findViewById(R.id.id_tv_data);
 
-         if(isOnline()) {
+         if(isOnLine()) {
             MyTask taskUsers = new MyTask();
             taskUsers.execute("https://jsonplaceholder.typicode.com/users");
 
@@ -48,19 +48,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean isOnline() {
-        // OBTENIENDO EL SERVICIO DE LA CONECTIVIDAD
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        // DE ConnectivityManager OBTENGO SI ESTA O NO ACTIVA LA RED
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        // SI HAY CONEXION
-        if(networkInfo != null) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     // Metodo para validar la conexion a internet
     public Boolean isOnLine(){
